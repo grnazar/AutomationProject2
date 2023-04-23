@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49d603fd-ccd6-41cb-abd0-f7d80684b4eb" name="Changes" comment="1">
-      <change afterPath="$PROJECT_DIR$/src/test/java/WebOrder.java" afterDir="false" />
+    <list default="true" id="49d603fd-ccd6-41cb-abd0-f7d80684b4eb" name="Changes" comment="2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/WebOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WebOrderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +46,10 @@
   }
 }</component>
   <component name="RunManager">
-    <configuration name="WebOrder" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="WebOrderTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="AutomationProject2" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="WebOrder" />
+      <option name="MAIN_CLASS_NAME" value="WebOrderTest" />
       <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
@@ -59,7 +59,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="TestNG.WebOrder" />
+        <item itemvalue="TestNG.WebOrderTest" />
       </list>
     </recent_temporary>
   </component>
@@ -79,7 +79,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682217727537</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2">
+      <created>1682220456719</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682220456719</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -95,6 +102,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
+    <MESSAGE value="2" />
+    <option name="LAST_COMMIT_MESSAGE" value="2" />
   </component>
 </project>

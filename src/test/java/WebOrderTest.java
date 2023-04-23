@@ -1,25 +1,22 @@
 import com.github.javafaker.Faker;
-//import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
-
-public class WebOrder {
+public class WebOrderTest {
 
     @Test
     public void webOrders() throws  InterruptedException, IOException {
 
-        WebDriver driver = new EdgeDriver();
+        ChromeOptions options1 = new ChromeOptions();
+        options1.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver(options1);
 
         driver.get("http://secure.smartbearsoftware.com/samples/TestComplete12/WebOrders/Login.aspx");
         driver.manage().window().maximize();
@@ -47,30 +44,25 @@ public class WebOrder {
         driver.findElement(By.id("ctl00_MainContent_fmwOrder_txtQuantity")).clear();
         driver.findElement(By.id("ctl00_MainContent_fmwOrder_txtQuantity")).sendKeys(Integer.toString(quantity));
 
-
         driver.findElement(By.cssSelector("input[type='submit'][value='Calculate']")).click();
         int expectedTotal = (quantity < 10) ? quantity * 100 : (int) (quantity * 100 * 0.92);
         Thread.sleep(1000);
         WebElement actualTotalText = driver.findElement(By.name("ctl00$MainContent$fmwOrder$txtTotal"));
         System.out.println(actualTotalText.getText());
 
-
-        Path reader = Path.of("src/test/java/Selenium_2/data..csv");
-        List<String[]> dataRows = Files.readAllLines(reader)
-                .stream()
-                .skip(1)
-                .map(line -> line.split(",")).toList();
-
-        Random random = new Random();
-        String[] randomDataRow = dataRows.get(random.nextInt(dataRows.size()));
-
-        WebElement name1 = driver.findElement(By.id("ctl00_MainContent_fmwOrder_txtName"));
-        name1.sendKeys(randomDataRow[0]);
-        driver.findElement(By.id("ctl00_MainContent_fmwOrder_TextBox2")).sendKeys(randomDataRow[1]);
-        driver.findElement(By.id("ctl00_MainContent_fmwOrder_TextBox3")).sendKeys(randomDataRow[2]);
-        driver.findElement(By.id("ctl00_MainContent_fmwOrder_TextBox4")).sendKeys(randomDataRow[3]);
-        driver.findElement(By.id("ctl00_MainContent_fmwOrder_TextBox5")).sendKeys(randomDataRow[4]);
-
+        Faker faker = new Faker();
+        String firstAndLastName = faker.address().firstName() + " " + faker.address().lastName();
+        int randomZip = 10000+(int)(Math.random()*90000);
+        String zip = String.valueOf(randomZip);
+        String address = faker.address().streetAddress();
+        String city = faker.address().city();
+        String state = faker.address().state();
+        Thread.sleep(500);
+        driver.findElement(By.name("ctl00$MainContent$fmwOrder$txtName")).sendKeys(firstAndLastName);
+        driver.findElement(By.name("ctl00$MainContent$fmwOrder$TextBox2")).sendKeys(address);
+        driver.findElement(By.name("ctl00$MainContent$fmwOrder$TextBox3")).sendKeys(city);
+        driver.findElement(By.name("ctl00$MainContent$fmwOrder$TextBox4")).sendKeys(state);
+        driver.findElement(By.name("ctl00$MainContent$fmwOrder$TextBox5")).sendKeys(zip);
 
         List<WebElement> cardTypes = driver.findElements(By.name("ctl00$MainContent$fmwOrder$cardList"));
         int index = (int) (Math.random() * cardTypes.size());
@@ -103,24 +95,19 @@ public class WebOrder {
         WebElement firstRow = ordersTable.findElement(By.xpath("//table[@id='ctl00_MainContent_orderGrid']/tbody/tr[2]"));
         String actualName = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[2]")).getText();
         String street = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[6]")).getText();
-        String city = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[7]")).getText();
-        String state = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[8]")).getText();
-        String zip = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[9]")).getText();
+        String city1 = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[7]")).getText();
+        String state1 = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[8]")).getText();
+        String zip1 = firstRow.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[9]")).getText();
 
-        Assert.assertEquals(actualName, randomDataRow[0]);
-        Assert.assertEquals(street, randomDataRow[1]);
-        Assert.assertEquals(city, randomDataRow[2]);
-        Assert.assertEquals(state, randomDataRow[3]);
-        Assert.assertEquals(zip, randomDataRow[4]);
+        Assert.assertEquals(actualName, firstAndLastName);
+        Assert.assertEquals(street, address);
+        Assert.assertEquals(city1, city);
+        Assert.assertEquals(state1, state);
+        Assert.assertEquals(zip1, zip);
         Assert.assertEquals(cardNumber, driver.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]/td[11]")).getText());
-
-        System.out.println("Actualy :" + driver.findElement(By.xpath("//*[@id=\"ctl00_MainContent_orderGrid\"]/tbody/tr[2]")).getText());
-        Thread.sleep(5000);
-        System.out.println("Excepted :" + Arrays.deepToString(randomDataRow));
 
         driver.findElement(By.id("ctl00_logout")).click();
 
         driver.quit();
 
-    }
-}
+    }}
